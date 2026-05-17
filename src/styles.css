@@ -120,17 +120,16 @@ a {
 
 main {
   display: grid;
-  gap: 28px;
-  padding: 28px clamp(16px, 4vw, 48px) 56px;
+  gap: 22px;
+  padding: 24px clamp(16px, 4vw, 48px) 48px;
 }
 
 .hero-section {
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
-  align-items: stretch;
-  gap: 28px;
-  min-height: min(620px, calc(100vh - 96px));
-  padding: clamp(22px, 4vw, 46px);
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
+  align-items: center;
+  gap: 20px;
+  padding: clamp(20px, 4vw, 34px);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: #ffffff;
@@ -174,9 +173,9 @@ p {
 
 h1 {
   max-width: 760px;
-  margin-bottom: 18px;
-  font-size: clamp(2.4rem, 6vw, 5.7rem);
-  line-height: 0.98;
+  margin-bottom: 14px;
+  font-size: clamp(2rem, 4.2vw, 4.2rem);
+  line-height: 1.02;
   letter-spacing: 0;
 }
 
@@ -197,8 +196,15 @@ h3 {
 .hero-copy p {
   max-width: 680px;
   color: var(--muted);
-  font-size: 1.04rem;
-  line-height: 1.75;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.hero-copy code {
+  color: #1f5e3d;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.92em;
+  font-weight: 700;
 }
 
 .hero-actions {
@@ -264,129 +270,33 @@ h3 {
   opacity: 0.45;
 }
 
-.infra-map {
-  position: relative;
-  min-height: 460px;
-  overflow: hidden;
-  border: 1px solid #cfd8d2;
-  border-radius: var(--radius);
-  background:
-    linear-gradient(#edf2ef 1px, transparent 1px),
-    linear-gradient(90deg, #edf2ef 1px, transparent 1px),
-    #fbfcfb;
-  background-size: 34px 34px;
+.hero-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  align-self: stretch;
 }
 
-.map-header {
-  position: absolute;
-  top: 18px;
-  left: 18px;
+.hero-summary div {
   display: flex;
+  min-height: 112px;
   flex-direction: column;
-  gap: 3px;
-  padding: 10px 12px;
-  border: 1px solid var(--line);
+  justify-content: space-between;
+  padding: 14px;
+  border: 1px solid #d5ded7;
   border-radius: var(--radius);
-  background: white;
+  background: #f8faf8;
 }
 
-.map-header span {
+.hero-summary span,
+.hero-summary small {
   color: var(--muted);
-  font-size: 0.76rem;
+  font-size: 0.82rem;
 }
 
-.node {
-  position: absolute;
-  display: grid;
-  width: 112px;
-  height: 64px;
-  place-items: center;
-  border: 2px solid currentColor;
-  border-radius: var(--radius);
-  font-weight: 800;
-  background: #ffffff;
-  box-shadow: 0 12px 22px rgba(25, 36, 30, 0.08);
-}
-
-.cloud-node {
-  top: 112px;
-  left: 11%;
-  color: var(--violet);
-}
-
-.vpc-node {
-  top: 96px;
-  left: 42%;
-  color: var(--blue);
-}
-
-.subnet-node {
-  top: 214px;
-  left: 36%;
-  color: var(--green);
-}
-
-.bucket-node {
-  top: 262px;
-  right: 10%;
-  color: var(--amber);
-}
-
-.state-node {
-  right: 15%;
-  bottom: 116px;
-  color: #58665e;
-}
-
-.line {
-  position: absolute;
-  height: 2px;
-  border-radius: 999px;
-  background: #98a79d;
-  transform-origin: left center;
-}
-
-.line-a {
-  top: 145px;
-  left: 24%;
-  width: 20%;
-  transform: rotate(-5deg);
-}
-
-.line-b {
-  top: 200px;
-  left: 48%;
-  width: 16%;
-  transform: rotate(86deg);
-}
-
-.line-c {
-  top: 286px;
-  left: 48%;
-  width: 24%;
-  transform: rotate(12deg);
-}
-
-.line-d {
-  right: 23%;
-  bottom: 178px;
-  width: 90px;
-  transform: rotate(90deg);
-}
-
-.map-console {
-  position: absolute;
-  right: 18px;
-  bottom: 18px;
-  left: 18px;
-  display: grid;
-  gap: 8px;
-  padding: 16px;
-  border-radius: var(--radius);
-  color: #d9ffe6;
-  background: #14231a;
-  font-family: "SFMono-Regular", Consolas, monospace;
-  font-size: 0.86rem;
+.hero-summary strong {
+  font-size: clamp(1.35rem, 2.5vw, 2.1rem);
+  line-height: 1;
 }
 
 .progress-band {
@@ -394,7 +304,7 @@ h3 {
   grid-template-columns: 130px minmax(160px, 1fr) 130px 150px;
   align-items: center;
   gap: 16px;
-  padding: 16px 18px;
+  padding: 12px 16px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: #ffffff;
@@ -428,7 +338,7 @@ h3 {
 .lab-section,
 .reference-section {
   display: grid;
-  gap: 18px;
+  gap: 14px;
 }
 
 .section-heading,
@@ -597,22 +507,45 @@ h3 {
   align-items: center;
 }
 
-.scenario-tab {
-  display: inline-flex;
+.lab-steps {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-  min-height: 42px;
-  padding: 0 12px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.lab-steps span {
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #ffffff;
+}
+
+.scenario-tab {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2px;
+  min-height: 54px;
+  padding: 7px 12px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   color: var(--ink);
   background: #ffffff;
   font-weight: 750;
+  text-align: left;
 }
 
 .scenario-tab span {
   color: var(--green);
   font-size: 0.78rem;
+}
+
+.scenario-tab strong {
+  font-size: 0.9rem;
 }
 
 .scenario-tab.active {
@@ -622,11 +555,11 @@ h3 {
 
 .lab-grid {
   display: grid;
-  grid-template-columns: minmax(340px, 1.05fr) minmax(320px, 0.95fr);
+  grid-template-columns: minmax(340px, 1fr) minmax(320px, 0.9fr);
   grid-template-areas:
     "editor plan"
     "editor state";
-  gap: 18px;
+  gap: 14px;
   align-items: stretch;
 }
 
@@ -652,7 +585,7 @@ h3 {
 
 textarea {
   width: 100%;
-  min-height: 410px;
+  min-height: 310px;
   padding: 16px;
   border: 1px solid #cbd5cf;
   border-radius: var(--radius);
@@ -800,8 +733,8 @@ textarea:focus {
 }
 
 pre {
-  min-height: 240px;
-  max-height: 360px;
+  min-height: 180px;
+  max-height: 300px;
   overflow: auto;
   margin: 0;
   padding: 14px;
@@ -831,7 +764,11 @@ pre {
   }
 
   .hero-section {
-    min-height: 0;
+    grid-template-columns: 1fr;
+  }
+
+  .hero-summary {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .lab-grid {
@@ -871,21 +808,7 @@ pre {
   }
 
   h1 {
-    font-size: 2.45rem;
-  }
-
-  .infra-map {
-    min-height: 390px;
-  }
-
-  .node {
-    width: 92px;
-    height: 56px;
-    font-size: 0.83rem;
-  }
-
-  .map-console {
-    font-size: 0.76rem;
+    font-size: 1.92rem;
   }
 
   .progress-band {
@@ -913,7 +836,25 @@ pre {
   }
 
   textarea {
-    min-height: 340px;
+    min-height: 290px;
+  }
+
+  .hero-summary {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .hero-summary div {
+    min-height: 78px;
+    padding: 10px;
+  }
+
+  .hero-summary strong {
+    font-size: 1.25rem;
+  }
+
+  .hero-summary span,
+  .hero-summary small {
+    font-size: 0.72rem;
   }
 }
 

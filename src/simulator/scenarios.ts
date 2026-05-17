@@ -1,10 +1,41 @@
+import type { TerraformState } from "./engine";
+
 export type LabScenario = {
   id: string;
   title: string;
   level: "入門" | "基礎" | "実務" | "上級";
   objective: string;
   starterCode: string;
+  initialState?: TerraformState;
   successHint: string;
+};
+
+const learningBucketState: TerraformState = {
+  "aws_s3_bucket.learning": {
+    type: "aws_s3_bucket",
+    name: "learning",
+    address: "aws_s3_bucket.learning",
+    attributes: {
+      bucket: "tf-practice-learning",
+      acl: "private",
+      tags: {
+        Environment: "dev",
+        Owner: "student"
+      }
+    }
+  }
+};
+
+const logsBucketState: TerraformState = {
+  "aws_s3_bucket.logs": {
+    type: "aws_s3_bucket",
+    name: "logs",
+    address: "aws_s3_bucket.logs",
+    attributes: {
+      bucket: "tf-practice-logs",
+      acl: "private"
+    }
+  }
 };
 
 export const scenarios: LabScenario[] = [
@@ -28,6 +59,7 @@ export const scenarios: LabScenario[] = [
     title: "差分を読む",
     level: "基礎",
     objective: "属性値を変更し、planがupdateとしてどのキーの差分を示すかを確認します。",
+    initialState: learningBucketState,
     starterCode: `resource "aws_s3_bucket" "learning" {
   bucket = "tf-practice-learning"
   acl    = "private"
@@ -44,11 +76,9 @@ export const scenarios: LabScenario[] = [
     title: "削除予定を理解する",
     level: "基礎",
     objective: "stateには存在するがコードから消えたresourceがdeleteになることを確認します。",
-    starterCode: `# resourceブロックを消すと、stateに残ったリソースはdelete予定になります。
-resource "aws_s3_bucket" "logs" {
-  bucket = "tf-practice-logs"
-  acl    = "private"
-}`,
+    initialState: logsBucketState,
+    starterCode: `# stateには aws_s3_bucket.logs が残っています。
+# コードからresourceが消えると、planはdelete予定を示します。`,
     successHint: "apply前にplanを読む習慣が、意図しないdestroyを防ぎます。"
   },
   {

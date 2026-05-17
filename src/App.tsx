@@ -27,7 +27,7 @@ function App() {
   const [selectedLessonId, setSelectedLessonId] = useState(lessons[0].id);
   const [selectedScenarioId, setSelectedScenarioId] = useState(initialScenario.id);
   const [code, setCode] = useState(initialScenario.starterCode);
-  const [state, setState] = useState<TerraformState>(() => readJson(stateKey, {}));
+  const [state, setState] = useState<TerraformState>(() => readJson(stateKey, initialScenario.initialState ?? {}));
   const [progress, setProgress] = useState<Progress>(() => readJson(progressKey, {}));
   const [lastApplied, setLastApplied] = useState<string | null>(null);
 
@@ -48,6 +48,7 @@ function App() {
   const handleSelectScenario = (scenario: LabScenario) => {
     setSelectedScenarioId(scenario.id);
     setCode(scenario.starterCode);
+    setState(scenario.initialState ?? {});
     setLastApplied(null);
   };
 
@@ -86,12 +87,12 @@ function App() {
           <div className="hero-copy">
             <div className="eyebrow">
               <BookMarked size={16} aria-hidden="true" />
-              HashiCorp公式情報ベースのハンズオン
+              HashiCorp公式情報ベース
             </div>
-            <h1 id="hero-title">Terraformを読む、書く、レビューする力までブラウザで鍛える。</h1>
+            <h1 id="hero-title">Terraformを、手を動かして学ぶ。</h1>
             <p>
-              IaCの考え方、HCL、CLIワークフロー、state、modules、testing、secrets、チーム運用までを段階的に学びます。
-              演習は実クラウドに接続しない安全な疑似Terraformです。
+              入門から実務レビューまでを、短いレッスンとブラウザ上の疑似 <code>plan / apply / state</code> で確認できます。
+              実クラウドや認証情報は使いません。
             </p>
             <div className="hero-actions">
               <a className="primary-link" href="#lab">
@@ -103,7 +104,23 @@ function App() {
               </a>
             </div>
           </div>
-          <InfrastructureMap />
+          <div className="hero-summary" aria-label="サイトの学習範囲">
+            <div>
+              <span>Lessons</span>
+              <strong>{lessons.length}</strong>
+              <small>初学者から上級まで</small>
+            </div>
+            <div>
+              <span>Labs</span>
+              <strong>{scenarios.length}</strong>
+              <small>疑似Terraform演習</small>
+            </div>
+            <div>
+              <span>Safety</span>
+              <strong>Local</strong>
+              <small>ブラウザ内だけで完結</small>
+            </div>
+          </div>
         </section>
 
         <section className="progress-band" aria-label="学習進捗">
@@ -143,12 +160,7 @@ function App() {
             </button>
           </div>
           <div className="roadmap-grid">
-            <LessonRail
-              lessons={lessons}
-              selectedLessonId={selectedLessonId}
-              progress={progress}
-              onSelect={setSelectedLessonId}
-            />
+            <LessonRail lessons={lessons} selectedLessonId={selectedLessonId} progress={progress} onSelect={setSelectedLessonId} />
             <LessonDetail
               lesson={selectedLesson}
               done={Boolean(progress[selectedLesson.id])}
@@ -169,6 +181,14 @@ function App() {
             </button>
           </div>
 
+          <div className="lab-steps" aria-label="演習手順">
+            <span>1. コードを読む</span>
+            <ArrowRight size={16} aria-hidden="true" />
+            <span>2. plan差分を見る</span>
+            <ArrowRight size={16} aria-hidden="true" />
+            <span>3. applyしてstateを確認</span>
+          </div>
+
           <div className="scenario-tabs" role="tablist" aria-label="演習シナリオ">
             {scenarios.map((scenario) => (
               <button
@@ -180,7 +200,7 @@ function App() {
                 onClick={() => handleSelectScenario(scenario)}
               >
                 <span>{scenario.level}</span>
-                {scenario.title}
+                <strong>{scenario.title}</strong>
               </button>
             ))}
           </div>
@@ -377,31 +397,6 @@ function PlanList({ changes }: { changes: PlanChange[] }) {
           )}
         </article>
       ))}
-    </div>
-  );
-}
-
-function InfrastructureMap() {
-  return (
-    <div className="infra-map" aria-label="Terraformによるインフラ構成の概念図">
-      <div className="map-header">
-        <span>Plan preview</span>
-        <strong>aws_app_stack</strong>
-      </div>
-      <div className="node cloud-node">Provider</div>
-      <div className="node vpc-node">VPC</div>
-      <div className="node subnet-node">Subnet</div>
-      <div className="node bucket-node">S3</div>
-      <div className="node state-node">State</div>
-      <span className="line line-a" />
-      <span className="line line-b" />
-      <span className="line line-c" />
-      <span className="line line-d" />
-      <div className="map-console">
-        <span>+ create aws_s3_bucket.learning</span>
-        <span>~ update aws_vpc.main.tags</span>
-        <span>= 4 unchanged</span>
-      </div>
     </div>
   );
 }
