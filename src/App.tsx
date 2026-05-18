@@ -29,6 +29,7 @@ function App() {
   const [code, setCode] = useState(initialScenario.starterCode);
   const [state, setState] = useState<TerraformState>(() => readJson(stateKey, initialScenario.initialState ?? {}));
   const [progress, setProgress] = useState<Progress>(() => readJson(progressKey, {}));
+  const [quizAnswers, setQuizAnswers] = useState<Record<string, number | undefined>>({});
   const [lastApplied, setLastApplied] = useState<string | null>(null);
 
   const selectedLesson = lessons.find((lesson) => lesson.id === selectedLessonId) ?? lessons[0];
@@ -164,6 +165,8 @@ function App() {
             <LessonDetail
               lesson={selectedLesson}
               done={Boolean(progress[selectedLesson.id])}
+              selectedAnswer={quizAnswers[selectedLesson.id]}
+              onQuizAnswer={(answerIndex) => setQuizAnswers((current) => ({ ...current, [selectedLesson.id]: answerIndex }))}
               onToggleDone={() => setProgress((current) => ({ ...current, [selectedLesson.id]: !current[selectedLesson.id] }))}
             />
           </div>
@@ -325,8 +328,21 @@ function LessonRail({
   );
 }
 
-function LessonDetail({ lesson, done, onToggleDone }: { lesson: Lesson; done: boolean; onToggleDone: () => void }) {
+function LessonDetail({
+  lesson,
+  done,
+  selectedAnswer,
+  onQuizAnswer,
+  onToggleDone
+}: {
+  lesson: Lesson;
+  done: boolean;
+  selectedAnswer: number | undefined;
+  onQuizAnswer: (answerIndex: number) => void;
+  onToggleDone: () => void;
+}) {
   const Icon = lesson.icon;
+  const selectedChoice = selectedAnswer === undefined ? undefined : lesson.quiz.choices[selectedAnswer];
   return (
     <article className="lesson-detail">
       <div className="lesson-detail-header">
@@ -339,6 +355,15 @@ function LessonDetail({ lesson, done, onToggleDone }: { lesson: Lesson; done: bo
         </div>
       </div>
       <p className="outcome">{lesson.outcome}</p>
+      <div className="lesson-body">
+        {lesson.explanation.map((paragraph) => (
+          <p key={paragraph}>{paragraph}</p>
+        ))}
+      </div>
+      <div className="lesson-example">
+        <span>Example</span>
+        <pre>{lesson.example}</pre>
+      </div>
       <div className="topic-cloud">
         {lesson.topics.map((topic) => (
           <span key={topic}>{topic}</span>
@@ -348,7 +373,28 @@ function LessonDetail({ lesson, done, onToggleDone }: { lesson: Lesson; done: bo
         <FlaskConical size={20} aria-hidden="true" />
         <span>{lesson.lab}</span>
       </div>
+      <div className="quiz-card">
+        <span className="panel-kicker">理解チェック</span>
+        <h4>{lesson.quiz.question}</h4>
+        <div className="quiz-options">
+          {lesson.quiz.choices.map((choice, index) => {
+            const selected = selectedAnswer === index;
+            return (
+              <button
+                key={choice.text}
+                type="button"
+                className={selected ? (choice.correct ? "quiz-option correct" : "quiz-option incorrect") : "quiz-option"}
+                onClick={() => onQuizAnswer(index)}
+              >
+                {choice.text}
+              </button>
+            );
+          })}
+        </div>
+        {selectedChoice && <p className={selectedChoice.correct ? "quiz-feedback correct" : "quiz-feedback incorrect"}>{selectedChoice.feedback}</p>}
+      </div>
       <div className="lesson-links">
+        <span>公式資料で確認</span>
         {lesson.references.map((reference) => (
           <a key={reference.url} href={reference.url} target="_blank" rel="noreferrer">
             {reference.label}

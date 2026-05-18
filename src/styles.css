@@ -447,6 +447,37 @@ h3 {
   line-height: 1.65;
 }
 
+.lesson-body {
+  display: grid;
+  gap: 10px;
+}
+
+.lesson-body p {
+  margin: 0;
+  color: #344239;
+  line-height: 1.75;
+}
+
+.lesson-example {
+  display: grid;
+  gap: 8px;
+}
+
+.lesson-example span,
+.lesson-links > span {
+  color: var(--green);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.lesson-example pre {
+  min-height: 0;
+  max-height: 220px;
+  padding: 14px;
+  white-space: pre-wrap;
+}
+
 .topic-cloud,
 .lesson-links,
 .scenario-tabs,
@@ -476,6 +507,64 @@ h3 {
   border-radius: var(--radius);
   background: #f2f7fb;
   line-height: 1.6;
+}
+
+.quiz-card {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid #d5ded7;
+  border-radius: var(--radius);
+  background: #fbfcfb;
+}
+
+.quiz-card h4 {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.quiz-options {
+  display: grid;
+  gap: 8px;
+}
+
+.quiz-option {
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--ink);
+  background: #ffffff;
+  font-weight: 700;
+  text-align: left;
+}
+
+.quiz-option.correct {
+  border-color: #1f7a48;
+  background: #f0faf3;
+}
+
+.quiz-option.incorrect {
+  border-color: #d68a86;
+  background: #fff7f6;
+}
+
+.quiz-feedback {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  line-height: 1.55;
+}
+
+.quiz-feedback.correct {
+  color: #185f3b;
+  background: #eef8f1;
+}
+
+.quiz-feedback.incorrect {
+  color: #8d2c29;
+  background: #fff1f0;
 }
 
 .lesson-links a,
