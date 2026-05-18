@@ -215,7 +215,7 @@ function App() {
                   <span className="panel-kicker">{selectedScenario.level}</span>
                   <h3>{selectedScenario.title}</h3>
                 </div>
-                <span className="panel-chip">limited HCL</span>
+                <span className="panel-chip">練習用HCL</span>
               </div>
               <p className="objective">{selectedScenario.objective}</p>
               <textarea
